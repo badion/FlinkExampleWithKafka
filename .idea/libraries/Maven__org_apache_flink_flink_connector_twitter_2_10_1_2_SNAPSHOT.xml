@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.apache.flink:flink-connector-twitter_2.10:1.2-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/flink/flink-connector-twitter_2.10/1.2-SNAPSHOT/flink-connector-twitter_2.10-1.2-20161121.042540-100.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/flink/flink-connector-twitter_2.10/1.2-SNAPSHOT/flink-connector-twitter_2.10-1.2-20161121.042540-100-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/flink/flink-connector-twitter_2.10/1.2-SNAPSHOT/flink-connector-twitter_2.10-1.2-20161121.042540-100-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
