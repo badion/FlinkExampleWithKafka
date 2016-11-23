@@ -26,7 +26,7 @@ public class TwitterExample {
 
     public static final String nonAlphaNumeric = "[^a-zA-Z\\d\\s:]";
 
-    private static Properties initTweeterKeys() {
+    public static Properties initTweeterKeys() {
         Properties props = new Properties();
         try {
             props.load(new FileReader(new File("keys.properties")));
@@ -41,7 +41,6 @@ public class TwitterExample {
     }
 
 	public static void main(String[] args) throws Exception {
-
 		final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         Properties props = initTweeterKeys();
         DataStream<String> streamSource = env.addSource(new TwitterSource(props));
@@ -67,29 +66,30 @@ public class TwitterExample {
                             return false;
                         }
                     }).flatMap(new SelectEnglishAndTokenizeFlatMap())
-                .keyBy(0)
-                .sum(1)
-                .print();
+                                .keyBy(0)
+                                .sum(1).print();
+                                env.execute();
+                    }
 
-		env.execute("Tweets example");
-	}
+
 
     public static class SelectEnglishAndTokenizeFlatMap implements FlatMapFunction<String, Tuple3<String, Integer,String>> {
         private static final long serialVersionUID = 1L;
         private transient ObjectMapper jsonParser;
+
         @Override
         public void flatMap(String value, Collector<Tuple3<String, Integer, String>> out) throws Exception {
-            if(jsonParser == null) {
+            if (jsonParser == null) {
                 jsonParser = new ObjectMapper();
             }
             JsonNode jsonNode = jsonParser.readValue(value, JsonNode.class);
             boolean isEnglish = jsonNode.has("user") && jsonNode.get("user").has("lang") && jsonNode.get("user").get("lang").toString().equals("\"en\"");
             if (isEnglish) {
-                    String result = jsonNode.get("user").get("location").toString().toLowerCase();
-                    if (!result.equals("") && !result.equals(null) && !result.equals("null")) {
-                        out.collect(new Tuple3<String, Integer, String >(jsonNode.get("text").toString(), 1, result));
-                        System.out.println(new Tuple3<String, Integer, String >(jsonNode.get("text").toString(), 1, result));
-                    }
+                String result = jsonNode.get("user").get("location").toString().toLowerCase();
+                if (!result.equals("") && !result.equals(null) && !result.equals("null")) {
+                    out.collect(new Tuple3<String, Integer, String>(jsonNode.get("text").toString(), 1, result));
+                    System.out.println(new Tuple3<String, Integer, String>(jsonNode.get("text").toString(), 1, result));
+                }
             }
         }
     }
